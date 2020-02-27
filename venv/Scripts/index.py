@@ -1,28 +1,16 @@
 import  requests
 import json
 from datetime import  datetime
+from Scripts import get_coordinates
 
 class iss:
-
-    def getparams(self):
-        print("write a latitude for wanted position")
-        latitude = input()
-        print("write a longitude for wanted position")
-        longitude = input()
-
-        parameters = {
-            "lat": latitude,
-            "lon": longitude
-        }
-        return parameters
 
     def jsonresponse(self , parameters):
         try :
             response = requests.get("http://api.open-notify.org/iss-pass.json", params=parameters)
-            print(response.status_code)
             return response.json()['response']
         except:
-            print("failed to connect with api")
+            print("Error code:"+response.status_code)
 
 
     def parsejson(self,parameters):
@@ -42,9 +30,9 @@ class iss:
             times.append(time)
             print(time)
 
-
+coordinates = get_coordinates.getcord()
+parameters = coordinates.parsecord()
 issapi = iss()
-parameters = issapi.getparams()
 issapi.parsejson(parameters)
 
 
